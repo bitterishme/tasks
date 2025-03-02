@@ -58,9 +58,10 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    const newMessage = messages.filter(message => !message.endsWith('?'))
-    return newMessage.map(message => message.endsWith('!') ? message.toUpperCase() : message);
-    
+    const newMessage = messages.filter((message) => !message.endsWith("?"));
+    return newMessage.map((message) =>
+        message.endsWith("!") ? message.toUpperCase() : message,
+    );
 };
 
 /**
@@ -68,7 +69,8 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const shortWords = words.filter((word) => word.length < 4);
+    return shortWords.length;
 }
 
 /**
@@ -77,7 +79,14 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) {
+        return true;
+    }
+    const validColors = ["red", "blue", "green"];
+
+    const validityMap = colors.map((color) => validColors.includes(color));
+
+    return !validityMap.includes(false);
 }
 
 /**
@@ -88,7 +97,15 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length === 0) {
+        return "0=0";
+    }
+
+    const sum = addends.reduce((acc, curr) => acc + curr, 0);
+
+    const additionPart = addends.join("+");
+
+    return `${sum}=${additionPart}`;
 }
 
 /**
