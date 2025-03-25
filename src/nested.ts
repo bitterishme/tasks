@@ -137,6 +137,7 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string,
 ): Question[] {
+<<<<<<< HEAD
     return questions.map((question) => {
         if (question.id === targetId) {
             // Create a new options array based on the condition
@@ -159,4 +160,7 @@ export function editOption(
         }
         return question;
     });
+=======
+    return [];
+>>>>>>> upstream/task-state
 }
