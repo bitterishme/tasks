@@ -1,12 +1,13 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { makeBlankQuestion } from "./objects"; // Assuming this is imported from the file you provided earlier
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    return questions.filter((question) => question.published);
 }
 
 /**
@@ -15,18 +16,24 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    return questions.filter(
+        (question) =>
+            question.body !== "" ||
+            question.expected !== "" ||
+            question.options.length > 0,
+    );
 }
 
-/***
+/**
  * Consumes an array of questions and returns the question with the given `id`. If the
  * question is not found, return `null` instead.
  */
 export function findQuestion(
     questions: Question[],
-    id: number
+    id: number,
 ): Question | null {
-    return null;
+    const found = questions.find((question) => question.id === id);
+    return found || null;
 }
 
 /**
@@ -35,16 +42,16 @@ export function findQuestion(
  * Hint: use filter
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    return questions.filter((question) => question.id !== id);
 }
 
-/***
+/**
  * Consumes an array of questions and returns a new array containing just the names of the
  * questions, as an array.
  * Do not modify the input array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    return questions.map((question) => question.name);
 }
 
 /**
@@ -53,19 +60,27 @@ export function getNames(questions: Question[]): string[] {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    return questions.map((question) => ({
+        questionId: question.id,
+        text: "",
+        submitted: false,
+        correct: false,
+    }));
 }
 
-/***
+/**
  * Consumes an array of Questions and produces a new array of questions, where
  * each question is now published, regardless of its previous published status.
  * Hint: as usual, do not modify the input questions array
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    return questions.map((question) => ({
+        ...question,
+        published: true,
+    }));
 }
 
-/***
+/**
  * Consumes an array of Questions and produces a new array of the same Questions,
  * except that a blank question has been added onto the end. Reuse the `makeBlankQuestion`
  * you defined in the `objects.ts` file.
@@ -75,24 +90,9 @@ export function addNewQuestion(
     questions: Question[],
     id: number,
     name: string,
-    type: QuestionType
+    type: QuestionType,
 ): Question[] {
-    return [];
-}
-
-/***
- * Consumes an array of Questions and produces a new array of Questions, where all
- * the Questions are the same EXCEPT for the one with the given `targetId`. That
- * Question should be the same EXCEPT that its name should now be `newName`.
- * Hint: as usual, do not modify the input questions array, 
- *       to make a new copy of a question with some changes, use the ... operator
- */
-export function renameQuestionById(
-    questions: Question[],
-    targetId: number,
-    newName: string
-): Question[] {
-    return [];
+    return [...questions, makeBlankQuestion(id, name, type)];
 }
 
 /**
@@ -100,18 +100,47 @@ export function renameQuestionById(
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
  * Question should be the same EXCEPT that its `option` array should have a new element.
  * If the `targetOptionIndex` is -1, the `newOption` should be added to the end of the list.
- * Otherwise, it should *replace* the existing element at the `targetOptionIndex`.
- *
- * Remember, if a function starts getting too complicated, think about how a helper function
- * can make it simpler! Break down complicated tasks into little pieces.
- * 
- * Hint: you need to use the ... operator for both the question and the options array
+ * Otherwise, it should replace the existing element at the `targetOptionIndex`.
+ */
+/**
+ * Consumes an array of Questions and produces a new array of Questions, where all
+ * the Questions are the same EXCEPT for the one with the given `targetId`. That
+ * Question should be the same EXCEPT that its `option` array should have a new element.
+ * If the `targetOptionIndex` is -1, the `newOption` should be added to the end of the list.
+ * Otherwise, it should replace the existing element at the `targetOptionIndex`.
  */
 export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
-    newOption: string
+    newOption: string,
 ): Question[] {
-    return [];
+    // Create a new array with updated questions
+    return questions.map((question) => {
+        // If this is not the target question, return it unchanged
+        if (question.id !== targetId) {
+            return question;
+        }
+
+        // This is the target question, so we need to update its options
+        let newOptions = [...question.options]; // Create a copy of the options array
+
+        if (targetOptionIndex === -1) {
+            // Add to the end
+            newOptions.push(newOption);
+        } else {
+            // Replace at the specified index
+            // Make sure the array is long enough
+            while (newOptions.length <= targetOptionIndex) {
+                newOptions.push("");
+            }
+            newOptions[targetOptionIndex] = newOption;
+        }
+
+        // Return the updated question
+        return {
+            ...question,
+            options: newOptions,
+        };
+    });
 }
