@@ -11,12 +11,6 @@ function App(): React.JSX.Element {
             <header className="App-header">
                 UM COS420 with React Hooks and TypeScript
             </header>
-<<<<<<< HEAD
-            <p>
-                Edit <code>src/App.tsx</code> and save. This page will
-                automatically reload. Meghann Manson
-            </p>
-=======
             <hr></hr>
             <Counter></Counter>
             <hr />
@@ -25,7 +19,6 @@ function App(): React.JSX.Element {
             <TwoDice></TwoDice>
             <hr />
             <ChangeType></ChangeType>
->>>>>>> upstream/task-state
         </div>
     );
 }
