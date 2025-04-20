@@ -98,16 +98,29 @@ export function addNewQuestion(
 /**
  * Consumes an array of Questions and produces a new array of Questions, where all
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
- * Question should be the same EXCEPT that its `option` array should have a new element.
- * If the `targetOptionIndex` is -1, the `newOption` should be added to the end of the list.
- * Otherwise, it should replace the existing element at the `targetOptionIndex`.
+ * Question should be the same EXCEPT that its name should now be `newName`.
+ * Hint: as usual, do not modify the input questions array,
+ *       to make a new copy of a question with some changes, use the ... operator
  */
+export function renameQuestionById(
+    questions: Question[],
+    targetId: number,
+    newName: string,
+): Question[] {
+    return [];
+}
+
 /**
  * Consumes an array of Questions and produces a new array of Questions, where all
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
  * Question should be the same EXCEPT that its `option` array should have a new element.
  * If the `targetOptionIndex` is -1, the `newOption` should be added to the end of the list.
- * Otherwise, it should replace the existing element at the `targetOptionIndex`.
+ * Otherwise, it should *replace* the existing element at the `targetOptionIndex`.
+ *
+ * Remember, if a function starts getting too complicated, think about how a helper function
+ * can make it simpler! Break down complicated tasks into little pieces.
+ *
+ * Hint: you need to use the ... operator for both the question and the options array
  */
 export function editOption(
     questions: Question[],
@@ -115,32 +128,5 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string,
 ): Question[] {
-    // Create a new array with updated questions
-    return questions.map((question) => {
-        // If this is not the target question, return it unchanged
-        if (question.id !== targetId) {
-            return question;
-        }
-
-        // This is the target question, so we need to update its options
-        let newOptions = [...question.options]; // Create a copy of the options array
-
-        if (targetOptionIndex === -1) {
-            // Add to the end
-            newOptions.push(newOption);
-        } else {
-            // Replace at the specified index
-            // Make sure the array is long enough
-            while (newOptions.length <= targetOptionIndex) {
-                newOptions.push("");
-            }
-            newOptions[targetOptionIndex] = newOption;
-        }
-
-        // Return the updated question
-        return {
-            ...question,
-            options: newOptions,
-        };
-    });
+    return [];
 }
