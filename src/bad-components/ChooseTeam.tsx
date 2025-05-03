@@ -16,9 +16,11 @@ export function ChooseTeam(): React.JSX.Element {
 
     function chooseMember(member: string) {
         setTeam([...team, member]);
+        setAllOptions(allOptions.filter((option) => option !== member));
     }
 
     function clearTeam() {
+        setAllOptions([...allOptions, ...team]);
         setTeam([]);
     }
 
@@ -31,7 +33,9 @@ export function ChooseTeam(): React.JSX.Element {
                         <div key={option} style={{ marginBottom: "4px" }}>
                             Add{" "}
                             <Button
-                                onClick={() => chooseMember(option)}
+                                onClick={() => {
+                                    chooseMember(option);
+                                }}
                                 size="sm"
                             >
                                 {option}
@@ -44,7 +48,13 @@ export function ChooseTeam(): React.JSX.Element {
                     {team.map((member: string) => (
                         <li key={member}>{member}</li>
                     ))}
-                    <Button onClick={clearTeam}>Clear Team</Button>
+                    <Button
+                        onClick={() => {
+                            clearTeam();
+                        }}
+                    >
+                        Clear Team
+                    </Button>
                 </Col>
             </Row>
         </div>
